@@ -12,9 +12,9 @@ services:
   otel-collector:
     image: otel/opentelemetry-collector:latest
     container_name: otel-collector
-    command: ["--config=/etc/config/otel-collector-config.yml"]
+    command: ["--config=/etc/otel-collector-config.yml"]
     volumes:
-      - ./:/etc/config
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
       - "1888:1888"   # pprof extension
       - "13133:13133" # health_check extension
@@ -25,3 +25,10 @@ services:
       - jaeger
     links:
       - jaeger
+  
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
